@@ -121,5 +121,6 @@ int main() {
 	printf("Proyectos elegidos:");
 	for (int pos = 0; pos < cantidad_elegidos; pos++) printf(" %d", elegidos[pos].indice + 1);
 	printf("\n");
+
 	return 0;
 }
