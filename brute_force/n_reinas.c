@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #define N 30
 
-int n = 8; // numero de reinas en el tablero de n x n
+int n; // numero de reinas en el tablero de n x n
 int cantidad_soluciones = 0;
 int tablero[N][N], fila_reina[N], fila_usada[N];
 
@@ -48,6 +48,8 @@ void brutar(int columna_actual) {
 }
 
 int main() {
+	printf("Ingrese la dimension del tablero cuadrado: ");
+	scanf("%d", &n);
 	brutar(0);
 	printf("Cantidad de soluciones: %d\n", cantidad_soluciones);
 	return 0;
