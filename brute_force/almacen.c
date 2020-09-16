@@ -8,7 +8,6 @@ void EnteroABinario(int estado[], int n, int mask) {
   }
 }
 
-
 int CalcularSuma(int** actual, int** almacen, int n, int m) {
   int suma = 0;
   if (actual[0][0] == 1) return -1;
@@ -27,8 +26,7 @@ int CalcularSuma(int** actual, int** almacen, int n, int m) {
             return -1;
           }
         }
-        // No hubo cajas que me arruinaron
-        suma += almacen[i][j];
+        suma += almacen[i][j];  // Soy valido, ninguna estaba a mi alrededor
       }
     }
   }
@@ -38,31 +36,49 @@ int CalcularSuma(int** actual, int** almacen, int n, int m) {
 void ImprimirTabla(int** tabla, int n, int m) {
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < m; j++) {
-      printf("%d ", tabla[i][j]);
+      if (j > 0) printf(" ");
+      printf("%d", tabla[i][j]);
     }
     printf("\n");
   }
 }
 
+void AsignarMemoria(int** tabla, int n, int m) {
+  for (int i = 0; i < n; i++) tabla[i] = (int*) malloc(sizeof(int) * m);
+}
+
+
+void LiberarMemoria(int** tabla, int n) {
+  for (int i = 0; i < n; i++) free(tabla[i]);
+}
+
+void EstadoAMatriz(int estado[], int** actual, int n, int m) {
+  for (int bit = 0; bit < n * m; bit++) {
+    int row = bit / m;
+    int col = bit % m;
+    actual[row][col] = estado[bit];
+  }
+}
+
 int main(int argc, char* argv[]) {
-  srand(atoi(argv[1]));
+  srand(atoi(argv[1]));  // Ejecutar con ./a.out semilla
   int n, m;
   printf("Ingrese la cantidad de filas: ");
   scanf("%d", &n);
   printf("Ingrese la cantidad de columnas: ");
   scanf("%d", &m);
-  int** almacen;  // valor de cada caja
-  int** actual;  // almacen actual dado un estado
-  almacen = (int**) malloc(sizeof(int*) * n);
-  actual = (int**) malloc(sizeof(int*) * n);
+  int* almacen[n];  // valor de cada caja
+  int* actual[n];  // almacen actual dado un estado
+  AsignarMemoria(almacen, n, m);
+  AsignarMemoria(actual, n, m);
   for (int i = 0; i < n; i++) {
-    almacen[i] = (int*) malloc(sizeof(int) * m);
-    actual[i] = (int*) malloc(sizeof(int) * m);
-  }
-  for (int i = 0; i < n; i++)
-    for (int j = 0; j < m; j++)
+    for (int j = 0; j < m; j++) {
       //scanf("%d", &almacen[i][j]);
-      almacen[i][j] = rand() % 100;
+      almacen[i][j] = rand() % 100;  // Generare un almacen pseudorandom
+    }
+  }
+  printf("\nAlmacen:\n");
+  ImprimirTabla(almacen, n, m);
 
   int elementos = n * m;
   int combinaciones = 1 << (elementos);
@@ -75,11 +91,7 @@ int main(int argc, char* argv[]) {
   for (int mask = 0; mask < combinaciones; mask++) {
     EnteroABinario(estado, elementos, mask);
     // En la matriz actual coloco las cajas que estoy utilizando
-    for (int bit = 0; bit < elementos; bit++) {
-      int row = bit / m;
-      int col = bit % m;
-      actual[row][col] = estado[bit];
-    }
+    EstadoAMatriz(estado, actual, n, m);
     // Chequeo si la matriz actual es valida
     int sumaActual = CalcularSuma(actual, almacen, n, m);
     if (sumaActual != -1) {
@@ -91,23 +103,12 @@ int main(int argc, char* argv[]) {
   }
 
   EnteroABinario(estado, elementos, mejorSolucion);
-  printf("Mejor suma: %d\n", mejorSuma);
-  for (int bit = 0; bit < elementos; bit++) {
-    int row = bit / m;
-    int col = bit % m;
-    actual[row][col] = estado[bit];
-  }
-  printf("\nAlmacen original:\n");
-  ImprimirTabla(almacen, n, m);
+  printf("\nMejor suma: %d\n", mejorSuma);
+  EstadoAMatriz(estado, actual, n, m);
   printf("\nSolucion:\n");
   ImprimirTabla(actual, n, m);
-
-  // Libero memoria
-  for (int i = 0; i < n; i++) {
-    free(almacen[i]);
-    free(actual[i]);
-  }
-  free(almacen);
-  free(actual);
+  
+  LiberarMemoria(almacen, n);
+  LiberarMemoria(actual, n);
   return 0;
 }
