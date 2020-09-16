@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void EnteroABinario(int estado[], int n, int mask) {
+void EnteroABinario(int* estado, int n, int mask) {
   for (int bit = 0; bit < n; bit++) {
     estado[n - 1 - bit] = mask & 1;
     mask >>= 1;
@@ -43,16 +43,17 @@ void ImprimirTabla(int** tabla, int n, int m) {
   }
 }
 
-void AsignarMemoria(int** tabla, int n, int m) {
-  for (int i = 0; i < n; i++) tabla[i] = (int*) malloc(sizeof(int) * m);
+void AsignarMemoria(int*** tabla, int n, int m) {
+  (*tabla) = (int**) malloc(sizeof(int*) * n);
+  for (int i = 0; i < n; i++) (*tabla)[i] = (int*) malloc(sizeof(int) * m);
 }
 
-
-void LiberarMemoria(int** tabla, int n) {
-  for (int i = 0; i < n; i++) free(tabla[i]);
+void LiberarMemoria(int*** tabla, int n) {
+  for (int i = 0; i < n; i++) free((*tabla)[i]);
+  free(*tabla);
 }
 
-void EstadoAMatriz(int estado[], int** actual, int n, int m) {
+void EstadoAMatriz(int* estado, int** actual, int n, int m) {
   for (int bit = 0; bit < n * m; bit++) {
     int row = bit / m;
     int col = bit % m;
@@ -62,15 +63,15 @@ void EstadoAMatriz(int estado[], int** actual, int n, int m) {
 
 int main(int argc, char* argv[]) {
   srand(atoi(argv[1]));  // Ejecutar con ./a.out semilla
+  int** almacen;
+  int** actual;
   int n, m;
   printf("Ingrese la cantidad de filas: ");
   scanf("%d", &n);
   printf("Ingrese la cantidad de columnas: ");
   scanf("%d", &m);
-  int* almacen[n];  // valor de cada caja
-  int* actual[n];  // almacen actual dado un estado
-  AsignarMemoria(almacen, n, m);
-  AsignarMemoria(actual, n, m);
+  AsignarMemoria(&almacen, n, m);
+  AsignarMemoria(&actual, n, m);
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < m; j++) {
       //scanf("%d", &almacen[i][j]);
@@ -108,7 +109,7 @@ int main(int argc, char* argv[]) {
   printf("\nSolucion:\n");
   ImprimirTabla(actual, n, m);
   
-  LiberarMemoria(almacen, n);
-  LiberarMemoria(actual, n);
+  LiberarMemoria(&almacen, n);
+  LiberarMemoria(&actual, n);
   return 0;
 }
