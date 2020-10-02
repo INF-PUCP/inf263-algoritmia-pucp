@@ -1,43 +1,14 @@
 #include <stdio.h>
-#define MAX_N 5000
-
-int almacen[MAX_N][MAX_N];  // almacen[i][j] = codigo en la casilla (i, j)
-int usado[MAX_N][MAX_N];  // usado[i][j] = la casilla (i, j) ya fue usada
-
-int dy[4] = {1, 0, -1, 0};
-int dx[4] = {0, -1, 0, 1};
-
-int direccion_actual = 0;
-int filas, columnas;
-
-int Check(int i, int j) {
-  if (0 <= i && i < filas && 0 <= j && j < columnas && !usado[i][j]) return 1;
-  return 0;
-}
-
-
-// O(n * m)
+int almacen[100][100], usado[100][100], dy[4] = {1, 0, -1, 0}, dx[4] = {0, -1, 0, 1}, n, m;
+int Check(int i, int j) { return ((0 <= i && i < n && 0 <= j && j < m && !usado[i][j]) ? 1 : 0); }
 void Recorrer(int i, int j, int from) {
-  printf("(%d, %d) : %d\n", i, j, almacen[i][j]);  // O(1)
-  usado[i][j] = 1;  // O(1)
-  for (int to = 0; to < 4; to++) {  // O(1)
-    int actual = (from + to) % 4;
-    if (Check(i + dx[actual], j + dy[actual])) {
-      Recorrer(i + dx[actual], j + dy[actual], actual);
-      return;
-    }
+  printf("(%d, %d) : %d\n", i, j, almacen[i][j]); usado[i][j] = 1;
+  for (int to = 0; to < 4; to++) { 
+    int cur = (from + to) % 4;
+    if (Check(i + dx[cur], j + dy[cur])) { Recorrer(i + dx[cur], j + dy[cur], cur); return; }
   }
-  return;
 }
-
 int main() {
-  scanf("%d %d", &filas, &columnas);  // O(1)
-  for (int fila = 0; fila < filas; fila++) { 
-    for (int columna = 0; columna < columnas; columna++) {
-      scanf("%d", &almacen[fila][columna]); // O(1)
-    }
-  }
-
-  Recorrer(0, 0, 0);
-  return 0;
+  scanf("%d %d", &n, &m); for (int i = 0; i < n; i++) for (int j = 0; j < m; j++) scanf("%d", &almacen[i][j]);
+  Recorrer(0, 0, 0); return 0;
 }
