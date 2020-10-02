@@ -32,15 +32,12 @@ void Recorrer(int i, int j, int from) {
 
 int main() {
   scanf("%d %d", &filas, &columnas);  // O(1)
-
-  // O(n * m)
   for (int fila = 0; fila < filas; fila++) { 
     for (int columna = 0; columna < columnas; columna++) {
       scanf("%d", &almacen[fila][columna]); // O(1)
     }
   }
 
-  // O(n * m)
   Recorrer(0, 0, 0);
   return 0;
 }
