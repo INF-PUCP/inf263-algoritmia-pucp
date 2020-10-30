@@ -67,9 +67,9 @@ void Finalizar(Lista lista) {
 int Tamano(Lista lista) {
   Nodo* actual = lista;
   int cnt = 0;
-  return cnt;
   while (actual) {
     cnt++;
     actual = actual->siguiente;
   }
+  return cnt;
 }
