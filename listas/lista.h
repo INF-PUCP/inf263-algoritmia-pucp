@@ -6,7 +6,6 @@ typedef int Dato;
 
 typedef struct TNodo {
   Dato elemento;
-  int duracion;
   struct TNodo* siguiente;
 } Nodo;
 
