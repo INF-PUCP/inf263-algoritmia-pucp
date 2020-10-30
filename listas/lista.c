@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "lista.h"
 
 void CrearLista(Lista* lista) {
@@ -10,7 +12,7 @@ int EstaVacia(Lista lista) {
 
 int EstaEnLista(Lista lista, Dato elemento) {
   Nodo* actual = lista;
-  while (actual) {
+  while (actual != NULL) {
     if (actual->elemento == elemento) return 1;
     actual = actual->siguiente;
   }
@@ -33,11 +35,11 @@ void InsertarFinal(Lista* lista, Dato elemento) {
 
   Nodo* actual = *lista;
   Nodo* anterior = NULL;
-  while (actual) {
+  while (actual != NULL) {
     anterior = actual;
     actual = actual->siguiente;
   }
-  if (anterior) {
+  if (anterior != NULL) {
     anterior->siguiente = nuevo;
   } else {
     *lista = nuevo;
@@ -47,27 +49,28 @@ void InsertarFinal(Lista* lista, Dato elemento) {
 void Imprimir(Lista lista) {
   Nodo* actual;
   actual = lista;
-  while (actual) {
+  while (actual != NULL) {
     printf("%d -> ", actual->elemento);
     actual = actual->siguiente;
   }
   printf("NULL\n");
 }
 
-void Finalizar(Lista lista) {
-  Nodo* actual = lista;
+void FinalizarLista(Lista* lista) {
+  Nodo* actual = *lista;
   Nodo* liberar;
-  while (actual) {
+  while (actual != NULL) {
     liberar = actual;
     actual = actual->siguiente;
     free(liberar);
   }
+  *lista = NULL;
 }
 
 int Tamano(Lista lista) {
   Nodo* actual = lista;
   int cnt = 0;
-  while (actual) {
+  while (actual != NULL) {
     cnt++;
     actual = actual->siguiente;
   }
