@@ -18,7 +18,7 @@ void Encolar(Cola* ref_cola, Dato valor) {
 }
 
 Dato Desencolar(Cola* ref_cola) {
-  assert(!EstaVacia(*ref_cola));
+  //assert(!EstaVacia(*ref_cola));
   Nodo* anterior = NULL;
   Nodo* actual = *ref_cola;
   if (!EstaVacia(actual)) {
@@ -40,8 +40,8 @@ Dato Desencolar(Cola* ref_cola) {
 void ImprimirCola(Cola cola) {
   Nodo* actual = cola;
   while (actual != NULL) {
-    printf("%d -> ", actual->elemento);
+    printf("%d ", actual->elemento);
     actual = actual->siguiente;
   }
-  printf("NULL\n");
+  //printf("NULL\n");
 }
