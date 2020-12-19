@@ -158,6 +158,6 @@ int main(void) {
   }
 
   /* Pregunta 3.b. */
-  printf("La cantidad de agrupaciones en elementos unitorios en parejas es %d.\n", Contar(0, cantidad));
+  printf("La cantidad de agrupaciones en elementos unitarios o en parejas es %d.\n", Contar(0, cantidad));
   return 0;
 }
