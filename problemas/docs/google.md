@@ -1,4 +1,4 @@
-- [ ] 1007 - Minimum Domino Rotations For Equal Row ([statement](#), [solution](#))
+- [x] 1007 - Minimum Domino Rotations For Equal Row ([statement](https://leetcode.com/problems/minimum-domino-rotations-for-equal-row/), [solution](https://github.com/ManuelLoaizaVasquez/inf263-algoritmia-pucp/blob/master/problemas/implementacion/MinimumDominoRotationsForEqualRow.cpp))
 - [ ] 929 - Unique Email Addresses ([statement](#), [solution](#))
 - [ ] 975 - Odd Even Jump ([statement](#), [solution](#))
 - [ ] 904 - Fruit Into Baskets ([statement](#), [solution](#))
