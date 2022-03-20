@@ -3,7 +3,7 @@
 ![](https://img.shields.io/github/forks/ManuelLoaizaVasquez/inf263-algoritmia-pucp)
 ![](https://img.shields.io/github/stars/ManuelLoaizaVasquez/inf263-algoritmia-pucp)
 
-<img src="https://imgs.xkcd.com/comics/travelling_salesman_problem.png" width="80%">
+<img src="https://imgs.xkcd.com/comics/travelling_salesman_problem.png" width="100%">
 
 Este curso provee una introducción al modelamiento matemático de los problemas computaciones.
 Este cubre algoritmos comunes, paradigmas algorítmicos,
