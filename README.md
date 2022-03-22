@@ -20,9 +20,8 @@ e introduce técnicas básicas de análisis y medida de la eficiencia.
 | IV | Técnicas algorítmicas |➡️ Búsqueda binaria <br><br>➡️ Programación dinámica|
 
 Nota: Como pueden observar, el contenido del curso dictado en la PUCP es muy elemental y puede ser aprendido
-en menos de una semana incluso con mayor rigurosidad teórica puesto que ninguno de los profesores maneja
-el contenido y solo se centran en la implementación de este.
-En caso quieran aprender, recomiendo lo siguiente:
+en menos de dos semana puesto que se centra en la implementación de los algoritmos y no en la teoría detrás de estos.
+En caso quieran aprender el tema con mayor profundidad, recomiendo lo siguiente:
 - Bibliografía:
     - Introduction to Algorithms. Thomas Cormen, Charles Leiserson, Ronald Rivest, Clifford Stein.
     - Guide to Competitive Programming. Antti Laaksonen.
@@ -31,6 +30,7 @@ En caso quieran aprender, recomiendo lo siguiente:
     - LeetCode, HackerRank: Dificultad fácil. Plataformas orientadas a preguntas de entrevistas en compañías tecnológicas.
     - Codeforces, AtCoder, CodeChef: Todos los niveles de dificultad. Plataformas orientadas a la programación competitiva.
 
+Asimismo, adjunto [mi otro repositorio](https://github.com/ManuelLoaizaVasquez/acm-icpc-solutions) con mayor variedad de temas y problemas resueltos.
 
 ## Organización de las carpetas
 `examenes` - contiene los enunciados y soluciones del examen parcial y final del curso.
@@ -40,7 +40,7 @@ En caso quieran aprender, recomiendo lo siguiente:
 `problemas` - contiene ejercicios agrupados por temas.
 
 `tarea-academica` - contiene el informe final del curso, el cual lo basé en Segment Tree,
-mi estructura de datos favoritas en programación competitiva.
+mi estructura de datos favorita en programación competitiva.
 
 ## Lista de cursos universitarios sobre algoritmos
 
