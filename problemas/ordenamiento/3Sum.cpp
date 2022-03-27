@@ -44,7 +44,7 @@ class Solution {
                 }
             }
 
-            // Case [num, x, y]
+            // Case [left, mid, right]
             for (int j = i + 1; j < n; j++) {
                 int mid = compression[j];
                 int right = (-1) * (left + mid);
