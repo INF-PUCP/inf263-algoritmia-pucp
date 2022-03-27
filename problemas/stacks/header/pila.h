@@ -1,5 +1,6 @@
 /*
  * Archivo: pila.h
+ * Autor: Manuel Loaiza Vasquez
  * ---------------
  * Esta interfaz exporta los metodos de una pila, la cual es una coleccion de
  * elementos que procesan valores en el orden last-in / first-out (LIFO).
