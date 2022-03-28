@@ -1,5 +1,6 @@
 /*
  * Archivo: cola.h
+ * Autor: Manuel Loaiza Vasquez
  * ---------------
  * Esta interfaz exporta los metodos de una cola, una coleccion en la
  * cual sus valores son procesados en el orden first-in / first-out (FIFO).

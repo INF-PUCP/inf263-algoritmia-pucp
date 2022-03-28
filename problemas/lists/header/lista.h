@@ -1,5 +1,6 @@
 /*
  * Archivo: lista.h
+ * Autor: Manuel Loaiza Vasquez
  * ----------------
  * Esta interfaz exporta los metodos de una lista, una coleccion en la cual
  * se utilizan punteros para conectar todos sus nodos como los enlaces en una
