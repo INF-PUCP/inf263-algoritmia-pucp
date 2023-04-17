@@ -4,49 +4,45 @@
 #include <fstream>
 #include <cstring>
 
-void PopulateGameBoard(int t, char **tablero);
-void ShowGameBoard(int t, char **tablero);
-void SearchWord(char *word, int t, char **tablero, char *res);
-bool SearchRight(char *word, int t, char **tablero, char *res);
-bool SearchLeft(char *word, int t, char **tablero, char *res);
-bool SearchDown(char *word, int t, char **tablero, char *res);
-bool SearchUp(char *word, int t, char **tablero, char *res);
+void PopulateGameBoard(int t, char **board);
+void ShowGameBoard(int t, char **board);
+void SearchWord(char *word, int t, char **board, char *result);
+bool SearchRight(char *word, int t, char **board, char *result);
+bool SearchLeft(char *word, int t, char **board, char *result);
+bool SearchDown(char *word, int t, char **board, char *result);
+bool SearchUp(char *word, int t, char **board, char *result);
 
 
 int main() {
     std::cout << "Ingresar el tamaño de la cuadricula: \n";
-    int t, cant;
+    int t, cnt;
     std::cin >> t;
-    char **tablero, **word, res[3];
-    // Inicializamos el tablero
-    tablero = new char*[t];
+    char **board, **words, result[3];
+    board = new char*[t];
     for (int i = 0; i < t; i++) {
-        tablero[i] = new char[t];
+        board[i] = new char[t];
     }
-    PopulateGameBoard(t, tablero);
-    ShowGameBoard(t, tablero);
+    PopulateGameBoard(t, board);
+    ShowGameBoard(t, board);
     std::cout << "Ingrese la cantidad de palabras a buscar\n";
-    std::cin >> cant;
-    word = new char*[t + 1];
+    std::cin >> cnt;
+    words = new char*[t + 1];
     for (int i = 0; i < t; i++) {
-        word[i] = new char[t + 1];
+        words[i] = new char[t + 1];
     }
-    //Lectura de las palabras
-    for (int i = 0; i < cant; i++) {
+    for (int i = 0; i < cnt; i++) {
         std::cout << "Palabra " << (i + 1) << ":";
-        std::cin >> *(word + i);
+        std::cin >> *(words + i);
     }
-
-    //Busqueda de las palabras
-    for (int i = 0; i < cant; i++) {
-        SearchWord(word[i], t, tablero, res);
-        std::cout << "Palabra " << (i + 1) << " - " << word[i];
-        if (res[0] == -1) {
+    for (int i = 0; i < cnt; i++) {
+        SearchWord(words[i], t, board, result);
+        std::cout << "Palabra " << (i + 1) << " - " << words[i];
+        if (result[0] == -1) {
             std::cout << " no encontrada\n";
             continue;
         }
-        std::cout << " encontrada en (" << (int) res[0] << "," << (int) res[1] << ")";
-        switch (res[2]) {
+        std::cout << " encontrada en (" << (int) result[0] << "," << (int) result[1] << ")";
+        switch (result[2]) {
             case 'U':
                 std::cout << " - arriba\n";
                 break;
@@ -63,20 +59,20 @@ int main() {
     }
 }
 
-void PopulateGameBoard(int t, char **tablero) {
+void PopulateGameBoard(int t, char **board) {
     srand(time(NULL));
     for (int i = 0; i < t; i++) {
         for (int j = 0; j < t; j++) {
-            tablero[i][j] = 65 + rand() % (91 - 65);
+            board[i][j] = 65 + rand() % (91 - 65);
         }
     }
 }
 
-void ShowGameBoard(int t, char **tablero) {
+void ShowGameBoard(int t, char **board) {
     std::cout << "Bienvenido al juego de sopa de letras\n";
     for (int i = 0; i < t; i++) {
         for (int j = 0; j < t; j++) {
-            std::cout << tablero[i][j];
+            std::cout << board[i][j];
             if (j != t - 1) {
                 std::cout << " | ";
             }
@@ -85,25 +81,25 @@ void ShowGameBoard(int t, char **tablero) {
     }
 }
 
-void SearchWord(char *word, int size, char **tablero, char *res) {
+void SearchWord(char *word, int size, char **board, char *result) {
     for (int i = 0; i < 3; i++) {
-        res[i] = -1;
+        result[i] = -1;
     }
-    if (SearchRight(word, size, tablero, res)) return;
-    if (SearchLeft(word, size, tablero, res)) return;
-    if (SearchDown(word, size, tablero, res)) return;
-    if (SearchUp(word, size, tablero, res)) return;
+    if (SearchRight(word, size, board, result)) return;
+    if (SearchLeft(word, size, board, result)) return;
+    if (SearchDown(word, size, board, result)) return;
+    if (SearchUp(word, size, board, result)) return;
 
 }
 
-bool SearchRight(char *word, int size, char **tablero, char *res) {
+bool SearchRight(char *word, int size, char **board, char *result) {
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
             if (j > size - strlen(word)) break;
             int k = 0, l = j;
             bool centinela = false;
             while (word[k] != '\0') {
-                if (tablero[i][l] != word[k]) {
+                if (board[i][l] != word[k]) {
                     centinela = true;
                     break;
                 }
@@ -111,23 +107,23 @@ bool SearchRight(char *word, int size, char **tablero, char *res) {
                 k++;
             }
             if (centinela)continue;
-            res[0] = (i + 1);
-            res[1] = (j + 1);
-            res[2] = 'R';
-            return false;
+            result[0] = (i + 1);
+            result[1] = (j + 1);
+            result[2] = 'R';
+            return true;
         }
     }
-    return true;
+    return false;
 }
 
-bool SearchLeft(char *word, int size, char **tablero, char *res) {
+bool SearchLeft(char *word, int size, char **board, char *result) {
     for (int i = 0; i < size; i++) {
         for (int j = size - 1; j >= 0; j--) {
             if (j < strlen(word) - 1) break;
             int k = 0, l = j;
             bool centinela = false;
             while (word[k] != '\0') {
-                if (tablero[i][l] != word[k]) {
+                if (board[i][l] != word[k]) {
                     centinela = true;
                     break;
                 }
@@ -135,23 +131,23 @@ bool SearchLeft(char *word, int size, char **tablero, char *res) {
                 k++;
             }
             if (centinela)continue;
-            res[0] = (i + 1);
-            res[1] = (j + 1);
-            res[2] = 'L';
+            result[0] = (i + 1);
+            result[1] = (j + 1);
+            result[2] = 'L';
             return true;
         }
     }
     return false;
 }
 
-bool SearchDown(char *word, int size, char **tablero, char *res) {
+bool SearchDown(char *word, int size, char **board, char *result) {
     for (int j = 0; j < size; j++) {
         for (int i = 0; i < size; i++) {
             if (i > size - strlen(word)) break;
             int k = 0, l = i;
             bool centinela = false;
             while (word[k] != '\0') {
-                if (tablero[l][j] != word[k]) {
+                if (board[l][j] != word[k]) {
                     centinela = true;
                     break;
                 }
@@ -159,16 +155,16 @@ bool SearchDown(char *word, int size, char **tablero, char *res) {
                 k++;
             }
             if (centinela) continue;
-            res[0] = (i + 1);
-            res[1] = (j + 1);
-            res[2] = 'D';
+            result[0] = (i + 1);
+            result[1] = (j + 1);
+            result[2] = 'D';
             return true;
         }
     }
-    return true;
+    return false;
 }
 
-bool SearchUp(char *word, int size, char **tablero, char *res) {
+bool SearchUp(char *word, int size, char **board, char *result) {
     for (int j = 0; j < size; j++) {
         for (int i = size - 1; i >= 0; i--) {
             if (i < strlen(word) - 1) break;
@@ -176,7 +172,7 @@ bool SearchUp(char *word, int size, char **tablero, char *res) {
             int k = 0, l = i;
             bool centinela = false;
             while (word[k] != '\0') {
-                if (tablero[l][j] != word[k]) {
+                if (board[l][j] != word[k]) {
                     centinela = true;
                     break;
                 }
@@ -185,9 +181,9 @@ bool SearchUp(char *word, int size, char **tablero, char *res) {
             }
 
             if (centinela)continue;
-            res[0] = (i + 1);
-            res[1] = (j + 1);
-            res[2] = 'U';
+            result[0] = (i + 1);
+            result[1] = (j + 1);
+            result[2] = 'U';
             return true;
         }
     }
