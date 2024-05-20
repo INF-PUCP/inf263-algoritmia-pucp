@@ -1,26 +1,29 @@
+// https://leetcode.com/problems/top-k-frequent-elements/
 class Solution {
- public:
-  vector<int> topKFrequent(vector<int>& nums, int k) {
-    int n = (int)nums.size();
-    unordered_map<int, int> frequencies;
-    for (int i = 0; i < n; i++) {
-      if (frequencies.count(nums[i]) == 0) {
-        frequencies[nums[i]] = 0;
-      }
-      frequencies[nums[i]]++;
+public:
+    vector<int> topKFrequent(vector<int>& numbers, int k) {
+        unordered_map<int, int> frequencies;
+        for (int number : numbers) {
+            if (frequencies.count(number) > 0) {
+                frequencies[number]++;
+            } else {
+                frequencies[number] = 1;
+            }
+        }
+
+        vector<pair<int, int>> frequencyNumberPairs;
+        for (pair<int, int> numberFrequency : frequencies) {
+            int number = numberFrequency.first;
+            int frequency = numberFrequency.second;
+            frequencyNumberPairs.push_back({frequency, number});
+        }
+
+        sort(frequencyNumberPairs.begin(), frequencyNumberPairs.end(), greater{});
+
+        vector<int> kMostFrequentNumbers;
+        for (int i = 0; i < k; i++) {
+            kMostFrequentNumbers.push_back(frequencyNumberPairs[i].second);
+        }
+        return kMostFrequentNumbers;
     }
-    vector<pair<int, int>> pairs;
-    for (auto num_freq : frequencies) {
-      int num = num_freq.first;
-      int frequency = num_freq.second;
-      pairs.push_back({frequency, num});
-    }
-    sort(pairs.begin(), pairs.end());
-    reverse(pairs.begin(), pairs.end());
-    vector<int> top_k_frequent_elements;
-    for (int i = 0; i < k; i++) {
-      top_k_frequent_elements.push_back(pairs[i].second);
-    }
-    return top_k_frequent_elements;
-  }
 };
