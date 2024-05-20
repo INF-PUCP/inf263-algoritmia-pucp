@@ -1,28 +1,37 @@
+// https://leetcode.com/problems/two-sum/
 class Solution {
 public:
-  vector<int> twoSum(vector<int>& nums, int target) {
-    int n = (int) nums.size();
-    vector<pair<int, int>> original;
-    for (int i = 0; i < n; i++) {
-      original.push_back({nums[i], i});
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        unordered_map<int, vector<int>> indices;
+
+        int numbersLength = (int)numbers.size();
+
+        for (int i = 0; i < numbersLength; i++) {
+            if (indices.count(numbers[i]) == 0) {
+                indices[numbers[i]] = {i};
+            } else {
+                indices[numbers[i]].push_back(i);
+            }
+        }
+
+        vector<int> solution;
+
+        for (int i = 0; i < numbersLength; i++) {
+            int remaining = target - numbers[i];
+
+            if (remaining == numbers[i]) {
+                if (indices[remaining].size() > 1) {
+                    solution = {indices[remaining][0], indices[remaining][1]};
+                    break;
+                }
+            } else {
+                if (indices.count(remaining) > 0) {
+                    solution = {indices[numbers[i]][0], indices[remaining][0]};
+                    break;
+                }
+            }
+        }
+
+        return solution;
     }
-    sort(original.begin(), original.end());
-    int l = 0;
-    int r = n - 1;
-    vector<int> indices;
-    while (l < r) {
-      int sum = original[l].first + original[r].first;
-      if (sum == target) {
-        indices = {original[l].second, original[r].second};
-        sort(indices.begin(), indices.end());
-        break;
-      }
-      if (sum < target) {
-        l++;
-      } else {
-        r--;
-      }
-    }
-    return indices;
-  }
 };
