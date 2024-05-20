@@ -1,27 +1,25 @@
 // https://leetcode.com/problems/longest-consecutive-sequence/
 class Solution {
- private:
-  unordered_set<int> found;
-  unordered_map<int, int> dp;
+private:
+    unordered_set<int> found;
+    unordered_map<int, int> sequenceLength;
 
- public:
-  int DP(int num) {
-    if (dp.count(num) > 0) return dp[num];
-    dp[num] = 1;
-    if (found.count(num + 1) > 0) {
-      dp[num] += DP(num + 1);
+    int FindLongestSequenceLength(int end) {
+        if (found.count(end) == 0) return 0;
+        if (sequenceLength.count(end) > 0) return sequenceLength[end];
+        sequenceLength[end] = 1 + FindLongestSequenceLength(end - 1);
+        return sequenceLength[end];
     }
-    return dp[num];
-  }
 
-  int longestConsecutive(vector<int>& nums) {
-    for (int num : nums) {
-      found.insert(num);
+public:
+    int longestConsecutive(vector<int>& numbers) {
+        for (int number : numbers) {
+            found.insert(number);
+        }
+        int longestSequenceLength = 0;
+        for (int number : numbers) {
+            longestSequenceLength = max(longestSequenceLength, FindLongestSequenceLength(number));
+        }
+        return longestSequenceLength;
     }
-    int mx = 0;
-    for (int num : nums) {
-      mx = max(mx, DP(num));
-    }
-    return mx;
-  }
 };
