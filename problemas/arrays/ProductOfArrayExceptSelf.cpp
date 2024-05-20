@@ -1,19 +1,24 @@
+// https://leetcode.com/problems/product-of-array-except-self/
 class Solution {
- public:
-  vector<int> productExceptSelf(vector<int>& nums) {
-    int n = (int)nums.size();
-    vector<int> left(n + 2, 1);
-    vector<int> right(n + 2, 1);
-    for (int i = 1; i <= n; i++) {
-      left[i] = left[i - 1] * nums[i - 1];
+public:
+  vector<int> productExceptSelf(vector<int>& numbers) {
+    int numbersLength = (int)numbers.size();
+
+    vector<int> products(numbersLength);
+    products[numbersLength - 1] = numbers.back();
+    for (int i = numbersLength - 2; i >= 0; i--) {
+      products[i] = numbers[i] * products[i + 1];
     }
-    for (int i = n; i >= 1; i--) {
-      right[i] = right[i + 1] * nums[i - 1];
+
+    int prefixProduct = 1;
+    for (int i = 0; i < numbersLength; i++) {
+      products[i] = prefixProduct;
+      if (i < numbersLength - 1) {
+        products[i] *= products[i + 1];
+      }
+      prefixProduct *= numbers[i];
     }
-    vector<int> products;
-    for (int i = 1; i <= n; i++) {
-      products.push_back(left[i - 1] * right[i + 1]);
-    }
+
     return products;
   }
 };
