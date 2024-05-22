@@ -1,33 +1,32 @@
-// https://leetcode.com/problems/longest-substring-without-repeating-characters/https://leetcode.com/problems/longest-substring-without-repeating-characters/
+// https://leetcode.com/problems/longest-substring-without-repeating-characters/
 class Solution {
- private:
-  bool HasRepeatingCharacters(const unordered_map<char, int>& frequencies) {
-    for (auto p : frequencies) {
-      if (p.second > 1) return true;
-    }
-    return false;
-  }
+private:
+    const int ALPHABET_SIZE = 256;
 
- public:
-  int lengthOfLongestSubstring(string s) {
-    unordered_map<char, int> frequencies;
-    int n = (int)s.size();
-    int l = 0;
-    int mx = 0;
-    for (int r = 0; r < n; r++) {
-      if (frequencies.count(s[r]) == 0) {
-        frequencies[s[r]] = 0;
-      }
-      frequencies[s[r]]++;
-      while (HasRepeatingCharacters(frequencies)) {
-        frequencies[s[l]]--;
-        if (frequencies[s[l]] == 0) {
-          frequencies.erase(s[l]);
+    bool HasRepeatingCharacters(const vector<int>& frequencies) {
+        for (int i = 0; i < ALPHABET_SIZE; i++) {
+            if (frequencies[i] > 1) {
+                return true;
+            }
         }
-        l++;
-      }
-      mx = max(mx, r - l + 1);
+        return false;
     }
-    return mx;
-  }
+
+public:
+    int lengthOfLongestSubstring(string s) {
+        int stringLength = int(s.size());
+        int longestSubstringLength = 0;
+        int start = 0;
+        vector<int> frequencies(ALPHABET_SIZE, 0);
+        for (int end = 0; end < stringLength; end++) {
+            frequencies[int(s[end])]++;
+            while (HasRepeatingCharacters(frequencies)) {
+                frequencies[int(s[start])]--;
+                start++;
+            }
+            int currentLongestSubstringLength = end - start + 1;
+            longestSubstringLength = max(longestSubstringLength, currentLongestSubstringLength);
+        }
+        return longestSubstringLength;
+    }
 };
