@@ -1,36 +1,33 @@
 // https://leetcode.com/problems/longest-repeating-character-replacement/
 class Solution {
- private:
-  int GetIndex(char c) {
-    return c - 'A';
-  }
+private:
+    const int ALPHABET_SIZE = 26;
+    const int A = int('A');
 
-  bool IsValid(int replacements, const vector<int>& frequencies) {
-    int mx = 0;
-    int cnt = 0;
-    for (int frequency : frequencies) {
-      mx = max(mx, frequency);
-      cnt += frequency;
+    bool IsValid(const vector<int>& frequencies, const int& k) {
+        int maximumFrequency = 0;
+        int numberOfCharacters = 0;
+        for (int i = 0; i < ALPHABET_SIZE; i++) {
+            maximumFrequency = max(maximumFrequency, frequencies[i]);
+            numberOfCharacters += frequencies[i];
+        }
+        return numberOfCharacters - maximumFrequency <= k;
     }
-    return mx + replacements >= cnt;
-  }
-
- public:
-  int characterReplacement(string s, int k) {
-    int n = (int)s.size();
-    int left = 0;
-    int mx = 0;
-    vector<int> frequencies(26, 0);
-    for (int right = 0; right < n; right++) {
-      int back = GetIndex(s[right]);
-      frequencies[back]++;
-      while (!IsValid(k, frequencies)) {
-        int front = GetIndex(s[left]);
-        frequencies[front]--;
-        left++;
-      }
-      mx = max(mx, right - left + 1);
+public:
+    int characterReplacement(string s, int k) {
+        vector<int> frequencies(ALPHABET_SIZE, 0);
+        int stringLength = int(s.size());
+        int start = 0;
+        int maximumSubstringLength = 0;
+        for (int end = 0; end < stringLength; end++) {
+            frequencies[int(s[end]) - A]++;
+            while (!IsValid(frequencies, k)) {
+                frequencies[int(s[start]) - A]--;
+                start++;
+            }
+            int currentSubstringLength = end - start + 1;
+            maximumSubstringLength = max(maximumSubstringLength, currentSubstringLength);
+        }
+        return maximumSubstringLength;
     }
-    return mx;
-  }
 };
