@@ -1,66 +1,58 @@
 // https://leetcode.com/problems/minimum-window-substring/
-struct Map {
-  unordered_map<char, int> m;
-  Map(void) {
-    for (int i = 0; i < 26; i++) {
-      m[(char)('a' + i)] = 0;
-      m[(char)('A' + i)] = 0;
-    }
-  }
-  void Add(char c) {
-    m[c]++;
-  }
-  void Remove(char c) {
-    m[c]--;
-  }
-  int Get(char c) {
-    return m[c];
-  }
-};
-
-bool Contains(Map& big, Map& small) {
-  vector<char> base = {'a', 'A'};
-  for (char b : base) {
-    for (int i = 0; i < 26; i++) {
-      if (big.Get((char)(b + i)) < small.Get((char)(b + i))) {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-
 class Solution {
- public:
-  string minWindow(string s, string t) {
-    Map target, window;
-    for (char c : t) target.Add(c);
-    
-    int min_window = INT_MAX;
-    int init = -1;
+private:
+    const int ALPHABET_SIZE = 58;
+    const int ASCII_A = int('A');
+    const pair<int, int> EMPTY = make_pair(-1, -1);
 
-    int n = (int)s.size();
-    int l = 0;
-    for (int r = 0; r < n; r++) {
-      window.Add(s[r]);
-      while (l <= r) {
-        window.Remove(s[l]);
-        if (!Contains(window, target)) {
-          window.Add(s[l]);
-          break;
+    bool Contains(const vector<int>& sourceFrequencies, const vector<int>& targetFrequencies) {
+        for (int i = 0; i < ALPHABET_SIZE; i++) {
+            if (sourceFrequencies[i] < targetFrequencies[i]) {
+                return false;
+            }
         }
-        l++;
-      }
-      if (Contains(window, target)) {
-        int len = r - l + 1;
-        if (len < min_window) {
-          min_window = len;
-          init = l;
-        }
-      }
+        return true;
     }
 
-    if (min_window == INT_MAX) return "";
-    return s.substr(init, min_window);
-  }
+public:
+    string minWindow(string s, string t) {
+        vector<int> sourceFrequencies(ALPHABET_SIZE, 0);
+        vector<int> targetFrequencies(ALPHABET_SIZE, 0);
+        for (char c : t) {
+            targetFrequencies[int(c) - ASCII_A]++;
+        }
+
+        int start = 0;
+        int sourceLength = int(s.size());
+        pair<int, int> window = EMPTY;
+        for (int end = 0; end < sourceLength; end++) {
+            sourceFrequencies[int(s[end]) - ASCII_A]++;
+
+            while (start < end) {
+                if (!Contains(sourceFrequencies, targetFrequencies)) {
+                    break;
+                }
+                sourceFrequencies[int(s[start]) - ASCII_A]--;
+                if (Contains(sourceFrequencies, targetFrequencies)) {
+                    start++;
+                } else {
+                    sourceFrequencies[int(s[start]) - ASCII_A]++;
+                    break;
+                }
+            }
+
+            if (
+                Contains(sourceFrequencies, targetFrequencies) &&
+                (window == EMPTY || end - start < window.second - window.first)
+            ) {
+                window = make_pair(start, end);
+            }
+        }
+
+        if (window == EMPTY) {
+            return "";
+        }
+
+        return s.substr(window.first, window.second - window.first + 1);
+    }
 };
