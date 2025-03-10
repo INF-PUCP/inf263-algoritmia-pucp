@@ -19,8 +19,8 @@ e introduce técnicas básicas de análisis y medida de la eficiencia.
 | III | Algoritmos de ordenamiento |➡️ Selection sort <br><br>➡️ Insertion sort <br><br>➡️ Merge sort|
 | IV | Técnicas algorítmicas |➡️ Búsqueda binaria <br><br>➡️ Programación dinámica|
 
-Nota: Como pueden observar, el contenido del curso dictado en la PUCP es muy elemental y puede ser aprendido
-en menos de dos semanas puesto que se centra en la implementación de los algoritmos y no en la teoría detrás de estos.
+Nota: Como pueden observar, el contenido del curso dictado en la PUCP
+se centra en la implementación de los algoritmos y no en la teoría detrás de estos.
 En caso quieran aprender el tema con mayor profundidad, recomiendo lo siguiente:
 - Bibliografía:
     - Introduction to Algorithms. Thomas Cormen, Charles Leiserson, Ronald Rivest, Clifford Stein.
